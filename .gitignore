@@ -1,0 +1,16 @@
+/nbproject/private/
+/nbproject/*
+._*
+.~lock.*
+.buildpath
+.DS_Store
+.project
+.settings
+composer.lock
+vendor/bin
+/vendor/
+/data/
+.gitignore~
+*.local.php
+/config/autoload/
+/common/Authentication/config/dbsession.global.php.dist

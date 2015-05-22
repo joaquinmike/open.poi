@@ -1,0 +1,15 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <?php echo $this->render('layout/head/authentication'); ?>
+    <body class="menubar-hoverable header-fixed ">
+        <?php echo $this->render('layout/header/authentication'); ?>
+        <!-- BEGIN LOGIN SECTION -->
+        <section class="section-account">
+            <?php echo $this->content; ?>
+        </section>
+            
+        <?php echo $this->render('layout/footer/authentication'); ?>
+        
+    </body>
+</html>

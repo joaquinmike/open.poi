@@ -1,0 +1,16 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <?php echo $this->render('layout/head')?>
+    <body class="<?php echo $this->body_class?>">
+        <?php echo $this->render('layout/header')?>
+        <!-- BEGIN BASE-->
+        <div id="base">
+            <?php echo $this->content; ?>
+            
+            <?php echo $this->render('layout/menu')?>
+        </div><!--end #base-->
+        <!-- END BASE -->
+        <?php echo $this->render('layout/footer')?>
+    </body>
+</html>

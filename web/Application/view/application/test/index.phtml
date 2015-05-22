@@ -1,0 +1,54 @@
+<div style="padding-top: 70px;">    
+    <form method="post" action="<?php echo $this->server('content', 'pgp/payment/create-cart'); ?>">
+        <fieldset>
+             <legend>Datos de pago:</legend>
+             <input type="hidden"  name="KEY" value="">
+             <div>
+                 <select name="KEY">
+                     <option value="30a33f45faa75a1e8c3844671a491fc7">Biilap</option>
+                     <option value="5c40625be2216c86f0efcee6158bd9ae">Checkout</option>
+                 </select>
+            </div>
+            <div>
+                APELLIDOS: <input type="text" value="" name="DPAGO[APELLIDOS]">
+            </div>
+            <div>
+                NOMBRES: <input type="text" value="" name="DPAGO[NOMBRES]">
+            </div>
+            <div>
+                EMAIL: <input type="text" value="" name="DPAGO[EMAIL]">
+            </div>
+            <div>
+                PAIS: <input type="text" value="" name="DPAGO[PAIS]">
+            </div>
+            <div>
+                ESTADO: <input type="text" value="" name="DPAGO[ESTADO]">
+            </div>
+            <div>
+                CIUDAD: <input type="text" value="" name="DPAGO[CIUDAD]">
+            </div>
+            <div>
+                DIRECCION: <input type="text" value="" name="DPAGO[DIRECCION]">
+            </div>
+        </fieldset>
+        <fieldset>
+             <legend>Productos:</legend>
+            <div>
+                CODIGO: <input type="text" value="" name="PRODUCTOS[0][PROD_CODIGO]">
+            </div>
+            <div>
+                NOMBRE: <input type="text" value="" name="PRODUCTOS[0][PROD_NOMBRE]">
+            </div>
+            <div>
+                PRECIO: <input type="text" value="" name="PRODUCTOS[0][PROD_PRECIO]">
+            </div>
+            <div>
+                CANTIDAD: <input type="text" value="" name="PRODUCTOS[0][PROD_CANTIDAD]">
+            </div>
+             <div>
+                Detalle: <input type="text" value="" name="PRODUCTOS[0][PROD_DETALLE]">
+            </div>
+        </fieldset>
+        <input type="submit" value="Enviar"/>
+    </form>
+</div>
