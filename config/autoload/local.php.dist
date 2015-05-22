@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * Local Configuration Override
+ *
+ * This configuration override file is for overriding environment-specific and
+ * security-sensitive configuration information. Copy this file without the
+ * .dist extension at the end and populate values as needed.
+ *
+ * @NOTE: This file is ignored from Git by default with the .gitignore included
+ * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
+ * credentials from accidentally being committed into version control.
+ */
+return array(
+    'likerow_server' => array(
+        'cache' => array(
+            'adapter' => array(
+                'name' => 'filesystem',
+                'options' => array(
+                    'dirLevel' => 2,
+                    'cacheDir' => 'data/cache',
+                    'dirPermission' => 0755,
+                    'filePermission' => 0666,
+                    'namespaceSeparator' => '-db-'
+                ),
+            ),
+            'plugins' => array('serializer')
+        ),
+        'proyecto' => 'PublikcKademy',        
+        'server' => array(
+            'static' => 'http://dev.open-poi.org/',
+            'content' => 'http://dev.open-poi.org/',
+            'element' => 'http://dev.open-poi.org/',
+        ),
+        'email_development' => array(
+            'likerow@gmail.com',
+        ), 
+        'pusher' => array
+        (
+            'uri'=>'',                                                                       
+        ),
+        'pagos' => array(
+            /*'payu' => array(
+                'signatureKey' => '13a980d4f851f3d9a1cfc792fb1f5e50',
+                'merchandId' => '145227'
+            )*/
+        )
+    ),
+    'db' => array(
+        //this is for primary adapter....
+        'username' => 'root',
+        'password' => '123456',
+        'driver' => 'Pdo',
+        'dsn' => 'mysql:dbname=dev_abogados;host=127.0.0.1',
+        'driver_options' => array(
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+        ),
+        'adapters' => array(
+            'dbsession' => array(
+                'username' => 'root',
+                'password' => '123456',
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=dev_abogados;host=127.0.0.1',
+                'driver_options' => array(
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+                ),
+            ),
+            'db1' => array(
+                'username' => 'root',
+                'password' => '',
+            ),
+            'db2' => array(
+                'username' => 'other_user',
+                'password' => 'other_user_passwd',
+            ),
+        ),
+    ),
+);
