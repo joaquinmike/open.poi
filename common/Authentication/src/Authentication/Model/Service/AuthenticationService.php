@@ -32,7 +32,7 @@ class AuthenticationService extends AbstractService
      * Default credential column
      * @var string
      */
-    protected $_statusColumn = 'us_estado'; 
+    //protected $_statusColumn = 'us_estado'; 
     
     /**
      *

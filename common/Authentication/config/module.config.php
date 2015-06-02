@@ -27,14 +27,23 @@ return array(
     //routing configuration...
     'router' => array(
         'routes' => array(
-
-            'auth' => array(
-                'type'    => 'segment',
+            'Login' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/auth[/:action]',
+                    'route'    => '/login',
                     'defaults' => array(
                         'controller' => 'Authentication\Controller\Auth',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+            'Close' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/cerrar-session',
+                    'defaults' => array(
+                        'controller' => 'Authentication\Controller\Auth',
+                        'action'     => 'logout',
                     ),
                 ),
             ),

@@ -30,8 +30,9 @@ class Module {
         if (!$sm->get('AuthService')->getStorage()->getSessionManager()
                         ->getSaveHandler()
                         ->read($sm->get('AuthService')->getStorage()->getSessionId())) {
+            
             if ($e->getRouteMatch()->getParam('controller') != 'Authentication\Controller\Auth') {
-                $e->getRouteMatch()->setParam('controller', 'Authentication\Controller\Auth');
+                return $this->redirect($e,'/login');
             }
         }
     }
@@ -82,38 +83,34 @@ class Module {
        
         $viewModel->isAuth = $authService->hasIdentity();   
         if (!$authService->hasIdentity() 
-            && empty($_SESSION['cit_session'])) {  
+            && empty($_SESSION['cit_session']['storage'])) {  
            
         } elseif ($authService->hasIdentity() 
-                || !empty($_SESSION['cit_session'])) {
+                || !empty($_SESSION['cit_session']['storage'])) {
             
             $user = $authService->getIdentity(); 
-            if (!empty($_SESSION['cit_session']['storage']) 
-               && !is_array($user) 
-               && empty($user->us_usuario)) {
-                
-                $usuarioModel = $e->getApplication()
-                    ->getServiceManager()->get('Model\Engine4Users');
-                
-                $user = $usuarioModel->getUsuarioLoginByUsId($user->us_id);
-                $viewModel->isAuth = true;
-                
-            } else {
-               // $_SESSION['cit_session']['storage'] = $user['user_id'];
-            }
             
             $container = new Container('SBIIA');
             $container->user = $user;
             $viewModel->dataUser = $user;
-            $viewModel->actionName = $data['action'];
-           
+            $viewModel->recurso = $data;
             
-           
-//            $viewModel->menus = $e->getApplication()->getServiceManager()
-//                    ->get('Model\AuthRecursos')->getAllMenu($rol);
-            
+            $modelRecurso = $e->getApplication()->getServiceManager()
+                    ->get('Model\SysRecurso');
+            $dtaMenu = $modelRecurso->getMenuRolByRolId($user['rol_id']);
+            $viewModel->sysMenu = $dtaMenu;
             //$this->checkUserEmail($e, $user);            
         }
+    }
+    
+    public function redirect($e, $url = '/')
+    {
+        $response = $e->getResponse();
+        $response->getHeaders()->addHeaderLine('Location', $url);
+        $response->setStatusCode(302);
+        $response->sendHeaders();
+
+        return $response;
     }
     
     public function getControllerInfo($e)
@@ -128,6 +125,7 @@ class Module {
         $info['module'] = strtolower($controllerArray[0]);
         $info['controller'] = strtolower($controllerArray[2]);
         $info['action'] = strtolower($matches->getParam('action'));
+        $info['recurso'] = $info['module'] . ':' . $info['controller'] . ':' . $info['action'];
 
         return $info;   
     }
