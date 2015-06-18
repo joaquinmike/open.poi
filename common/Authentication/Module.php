@@ -84,10 +84,12 @@ class Module {
         $viewModel->isAuth = $authService->hasIdentity();   
         if (!$authService->hasIdentity() 
             && empty($_SESSION['cit_session']['storage'])) {  
-           
+            $rol = \Sys\Entity\SysRecurso::ROL_INVITADO;
+//            if (!$this->initAcl($e, $rol)) {
+//                return $this->redirect($e);
+//            }
         } elseif ($authService->hasIdentity() 
                 || !empty($_SESSION['cit_session']['storage'])) {
-            
             $user = $authService->getIdentity(); 
             
             $container = new Container('SBIIA');
@@ -99,18 +101,23 @@ class Module {
                     ->get('Model\SysRecurso');
             $dtaMenu = $modelRecurso->getMenuRolByRolId($user['rol_id']);
             $viewModel->sysMenu = $dtaMenu;
-            //$this->checkUserEmail($e, $user);            
+            //$this->checkUserEmail($e, $user);   
+            if (!$this->initAcl($e, $user['rol_id'])) {
+                return $this->redirect($e);
+            }
         }
     }
     
-    public function redirect($e, $url = '/')
+    public function initAcl(MvcEvent $e, $rol)
     {
-        $response = $e->getResponse();
-        $response->getHeaders()->addHeaderLine('Location', $url);
-        $response->setStatusCode(302);
-        $response->sendHeaders();
-
-        return $response;
+        $info = $this->getControllerInfo($e);
+        $aclService = $e->getApplication()->getServiceManager()
+                ->get('Authentication\Model\Service\AclService');
+        $aclService->setResource($info['recurso']);
+        $aclService->setRol($rol);
+        //$data = $aclService->getRolService();
+        //var_dump($data);exit;
+        return $aclService->validate();
     }
     
     public function getControllerInfo($e)
@@ -128,6 +135,16 @@ class Module {
         $info['recurso'] = $info['module'] . ':' . $info['controller'] . ':' . $info['action'];
 
         return $info;   
+    }
+    
+    public function redirect($e, $url = '/login')
+    {
+        $response = $e->getResponse();
+        $response->getHeaders()->addHeaderLine('Location', $url);
+        $response->setStatusCode(302);
+        $response->sendHeaders();
+
+        return $response;
     }
 
 }

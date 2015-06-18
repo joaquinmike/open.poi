@@ -245,7 +245,7 @@ abstract class AbstractRepository implements ServiceLocatorAwareInterface
      * @return \Zend\Paginator\Paginator
      */
     protected function getPaginatorForSelect($select, $page, $limit = 20,
-            $pageRange = 10)
+            $pageRange = \Application\Entity\Functions::PAGE_RANGE_DEFAULT)
     {
         //-- Utilizar Buffer para Paginator
         $resulset = new \Zend\Db\ResultSet\ResultSet();

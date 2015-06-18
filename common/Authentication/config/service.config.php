@@ -7,7 +7,7 @@ return array(
         'AuthService' => 'Authentication\Factory\Storage\AuthenticationServiceFactory',
         'IdentityManager' => 'Authentication\Factory\Storage\IdentityManagerFactory',
         'Authentication\Model\Service\AuthenticationService' => 'Authentication\Model\Service\Factory\AuthenticationFactory',
-        
+        'Authentication\Model\Service\AclService' => 'Authentication\Model\Service\Factory\AclFactory',
         
         'Form\LoginForm' => function($sm){
             $adapter = $sm->get('Zend\Db\Adapter\Adapter');
