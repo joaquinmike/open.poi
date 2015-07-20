@@ -84,7 +84,7 @@ class Module {
         $viewModel->isAuth = $authService->hasIdentity();   
         if (!$authService->hasIdentity() 
             && empty($_SESSION['cit_session']['storage'])) {  
-            $rol = \Sys\Entity\SysRecurso::ROL_INVITADO;
+            $rol = \Auth\Entity\AuthRecurso::ROL_INVITADO;
 //            if (!$this->initAcl($e, $rol)) {
 //                return $this->redirect($e);
 //            }
@@ -98,7 +98,7 @@ class Module {
             $viewModel->recurso = $data;
             
             $modelRecurso = $e->getApplication()->getServiceManager()
-                    ->get('Model\SysRecurso');
+                    ->get('Model\AuthRecurso');
             $dtaMenu = $modelRecurso->getMenuRolByRolId($user['rol_id']);
             $viewModel->sysMenu = $dtaMenu;
             //$this->checkUserEmail($e, $user);   

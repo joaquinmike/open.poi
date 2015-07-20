@@ -80,12 +80,13 @@ class AuthController extends AbstractActionController
              $this->flashMessenger()->addMessage('El usuario y/o contraseña es incorrecta.');
              $this->redirect()->toUrl('/');
         }
-           
+        \Auth\Entity\AuthPersonal::removeFilterPersonal();
         
     }
 
     public function logoutAction()
     {
+        \Auth\Entity\AuthPersonal::removeFilterPersonal();
         $this->identityManager->logout();
 
         return $this->redirect()->toRoute('home');

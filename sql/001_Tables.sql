@@ -7,26 +7,11 @@ CREATE TABLE sessions (
     PRIMARY KEY (id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
   
-
-CREATE TABLE `auth_usuario` (
-  `us_id` int(11) NOT NULL AUTO_INCREMENT,
-  `us_usuario` varchar(32) NOT NULL,
-  `us_password` varchar(32) NOT NULL,
-   us_email varchar(128) NULL,
-   fecha_creacion DATETIME NULL,
-   us_estado int(11) NULL DEFAULT 1,
-  PRIMARY KEY (`us_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- users data with password = md5('admin')
-INSERT INTO `auth_usuario` (`us_usuario`, `us_password`,us_email,fecha_creacion) VALUES
-('admin', md5('tarazona'),'jmike410@gmail.com',now());
-
 CREATE TABLE `auth_rol` (
   `rol_id` INT NOT NULL AUTO_INCREMENT,
   `rol_dec` VARCHAR(128) NULL,
-  `rol_estado` INT(11) NULL,
-  `rol_rol_id` INT NOT NULL,
+  `rol_estado` INT NULL DEFAULT 1 COMMENT '0: Inactivo\n1:activo',
+  `rol_rol_id` INT NULL,
   PRIMARY KEY (`rol_id`),
   INDEX `fk_auth_rol_auth_rol_idx` (`rol_rol_id` ASC),
   CONSTRAINT `fk_auth_rol_auth_rol`
@@ -34,31 +19,59 @@ CREATE TABLE `auth_rol` (
     REFERENCES `auth_rol` (`rol_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB DEFAULT CHARSET=utf8;
+ENGINE = InnoDB;
+
+CREATE TABLE `auth_usuario` (
+  `us_id` INT NOT NULL AUTO_INCREMENT,
+  `us_usuario` VARCHAR(32) NULL,
+  `us_password` VARCHAR(256) NULL,
+  `us_email` VARCHAR(256) NULL,
+  `us_nombre` VARCHAR(64) NULL,
+  `us_estado` INT NULL DEFAULT 1,
+  `fecha_creacion` DATETIME NULL,
+  `rol_id` INT NOT NULL,
+  PRIMARY KEY (`us_id`),
+  INDEX `fk_auth_usuario_auth_rol1_idx` (`rol_id` ASC),
+  CONSTRAINT `fk_auth_usuario_auth_rol1`
+    FOREIGN KEY (`rol_id`)
+    REFERENCES `auth_rol` (`rol_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 CREATE TABLE `auth_recurso` (
   `rec_id` INT NOT NULL AUTO_INCREMENT,
   `rec_desc` VARCHAR(256) NULL,
   `rec_uri` VARCHAR(256) NULL,
+  `rec_tipo` INT NULL COMMENT '1: Menu\n2: Recurso',
   `rec_estado` INT(11) NULL,
-  PRIMARY KEY (`rec_id`))
+  `rec_css` VARCHAR(32) NULL,
+  `rec_orden` INT NULL,
+  `rec_rec_id` INT NULL,
+  PRIMARY KEY (`rec_id`),
+  INDEX `fk_auth_recurso_auth_recurso1_idx` (`rec_rec_id` ASC),
+  CONSTRAINT `fk_auth_recurso_auth_recurso1`
+    FOREIGN KEY (`rec_rec_id`)
+    REFERENCES `auth_recurso` (`rec_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 CREATE TABLE `auth_rol_recurso` (
-  `auth_rol_rol_id` INT NOT NULL,
-  `auth_recurso_rec_id` INT NOT NULL,
-  `rolrec_desc` VARCHAR(45) NULL COMMENT 'Si: allow\nNo: Deny',
-  `rolrec_estado` VARCHAR(45) NULL,
-  PRIMARY KEY (`auth_rol_rol_id`, `auth_recurso_rec_id`),
-  INDEX `fk_auth_rol_has_auth_recurso_auth_recurso1_idx` (`auth_recurso_rec_id` ASC),
-  INDEX `fk_auth_rol_has_auth_recurso_auth_rol1_idx` (`auth_rol_rol_id` ASC),
+  `rol_id` INT NOT NULL,
+  `rec_id` INT NOT NULL,
+  `rolrec_permiso` VARCHAR(16) NULL COMMENT 'Si: allow\nNo: Deny',
+  `rolrec_estado` INT NULL,
+  PRIMARY KEY (`rol_id`, `rec_id`),
+  INDEX `fk_auth_rol_has_auth_recurso_auth_recurso1_idx` (`rec_id` ASC),
+  INDEX `fk_auth_rol_has_auth_recurso_auth_rol1_idx` (`rol_id` ASC),
   CONSTRAINT `fk_auth_rol_has_auth_recurso_auth_rol1`
-    FOREIGN KEY (`auth_rol_rol_id`)
+    FOREIGN KEY (`rol_id`)
     REFERENCES `auth_rol` (`rol_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_auth_rol_has_auth_recurso_auth_recurso1`
-    FOREIGN KEY (`auth_recurso_rec_id`)
+    FOREIGN KEY (`rec_id`)
     REFERENCES `auth_recurso` (`rec_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

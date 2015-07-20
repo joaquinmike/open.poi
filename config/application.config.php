@@ -11,7 +11,6 @@ return array(
         'Auth',
         'Util',
         'Yoson',
-        'Sys',
         'Application', 
     ),
     'module_listener_options' => array(

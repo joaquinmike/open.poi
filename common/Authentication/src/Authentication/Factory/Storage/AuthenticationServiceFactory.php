@@ -12,7 +12,7 @@ class AuthenticationServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $dbAdapter = $serviceLocator->get('Zend\Db\Adapter\Adapter');
-        $dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter, 'vauth_usuario_login','us_usuario','us_password', 'MD5(?)');
+        $dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter, 'vauth_usuario','us_usuario','us_password', 'MD5(?)');
 
         $authService = new AuthenticationService($serviceLocator->get('AuthStorage'), $dbTableAuthAdapter);
 

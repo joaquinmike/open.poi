@@ -10,10 +10,10 @@ use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 class AclService
 {
     const SERVICE_ROL = 'Model\AuthRol';
-    const SERVICE_RESOURCE = 'Model\SysRecurso';
-    const SERVICE_PERMISSIONS = 'Model\SysRolRecurso';
+    const SERVICE_RESOURCE = 'Model\AuthRecurso';
+    const SERVICE_PERMISSIONS = 'Model\AuthRolRecurso';
     const FIELD_ROL_ID = 'rol_id';
-    const FIELD_RESOURCE_URI = 'recurso_uri';
+    const FIELD_RESOURCE_URI = 'rec_uri';
    
     /**
      * @var Acl
@@ -199,7 +199,7 @@ class AclService
         $rolPermissions = $this->getPermissionsService()->getPermissions();     
         foreach ($rolPermissions as $rol => $roles) {
             foreach ($roles as $permiso){
-                $this->_acl->$permiso['rol_permiso']($rol, $permiso['recurso_uri']);
+                $this->_acl->$permiso['rol_permiso']($rol, $permiso['rec_uri']);
             }
         }
     }

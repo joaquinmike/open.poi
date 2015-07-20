@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Currency db table
+ * Currency db AuthUsuario
  *
- * @author http://bongous.com
+ * @author joaquinmike
  */
 
 namespace Auth\Model;
