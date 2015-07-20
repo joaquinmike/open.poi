@@ -86,9 +86,7 @@ class AuthController extends AbstractActionController
 
     public function logoutAction()
     {
-        \Auth\Entity\AuthPersonal::removeFilterPersonal();
         $this->identityManager->logout();
-
         return $this->redirect()->toRoute('home');
     }
 }
